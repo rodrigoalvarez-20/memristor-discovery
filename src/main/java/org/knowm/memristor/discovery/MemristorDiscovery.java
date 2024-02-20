@@ -190,8 +190,6 @@ public class MemristorDiscovery
 
           @Override
           public void windowClosing(WindowEvent winEvt) {
-
-            //            System.out.println("windowClosing");
             quit();
           }
         });

@@ -238,7 +238,7 @@ public class DWFProxy {
    */
   public void update2DigitalIOStatesAtOnce(int toggleClickedID, boolean isOn) {
 
-    // logger.debug("toggleClickedID: " + toggleClickedID);
+    System.out.println("Old state: " + digitalIOStates);
     int oldValDigitalIO = digitalIOStates;
 
     // Update model
@@ -248,11 +248,11 @@ public class DWFProxy {
       digitalIOStates = digitalIOStates & ~(1 << toggleClickedID);
     }
 
-    // logger.debug("new state: " + digitalIOStates);
+    System.out.println("New state: " + digitalIOStates);
 
-    // System.out.println("toggleClickedID: " + toggleClickedID);
-    // System.out.println("isOn: " + isOn);
-    // System.out.println("digitalIOStates: " + Integer.toBinaryString(digitalIOStates));
+    System.out.println("toggleClickedID: " + toggleClickedID);
+    System.out.println("isOn: " + isOn);
+    System.out.println("digitalIOStates: " + Integer.toBinaryString(digitalIOStates));
 
     boolean successful = dwf.FDwfDigitalIOOutputSet(digitalIOStates);
     // logger.debug("AD2 Device Digital I/O Written: " + successful);

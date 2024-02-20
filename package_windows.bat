@@ -6,13 +6,7 @@ set APP_ICON=_exe/icons.ico
 
 call "%JAVA_HOME%\bin\java.exe" ^
     -Xmx512M ^
-    --module-path "%JAVA_HOME%\jmods" ^
-    --add-opens jdk.jlink/jdk.tools.jlink.internal.packager=jdk.packager ^
-    -m jdk.packager/jdk.packager.Main ^
-    create-image ^
-    --verbose ^
-    --echo-mode ^
-    --add-modules "java.base,java.datatransfer,java.desktop,java.logging,java.prefs,java.xml,jdk.xml.dom" ^
+    --add-modules "java.base,java.datatransfer,java.desktop,java.logging,java.prefs,java.xml,jdk.xml.dom, javafx.controls,javafx.fxml" ^
     --input "%INPUT%" ^
     --output "%OUTPUT%" ^
     --name "Memristor-Discovery" ^

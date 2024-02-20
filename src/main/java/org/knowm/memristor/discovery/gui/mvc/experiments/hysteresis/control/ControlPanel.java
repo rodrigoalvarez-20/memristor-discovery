@@ -54,9 +54,12 @@ public class ControlPanel extends ControlView {
   private final JSlider frequencySliderLog;
 
   private final JLabel seriesLabel;
+  private final JLabel exportedPathLabel;
   private final JTextField seriesTextField;
+  private final JTextField exportedDataPathTextField;
 
   public final JButton startStopButton;
+  public final JButton startCaptureButton;
 
   /** Constructor */
   public ControlPanel() {
@@ -157,18 +160,34 @@ public class ControlPanel extends ControlView {
     c.insets = new Insets(0, 5, 14, 5);
     add(seriesTextField, c);
 
+    exportedPathLabel = new JLabel("Exported Data Path [Press Enter to Validate]");
+    exportedPathLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+    c.gridy++;
+    c.insets = new Insets(0, 10, 4, 0);
+    add(exportedPathLabel, c);
+
+    exportedDataPathTextField = new JTextField();
+    exportedDataPathTextField.setAlignmentX(Component.CENTER_ALIGNMENT);
+    c.gridy++;
+    c.insets = new Insets(0, 5, 14, 5);
+    add(exportedDataPathTextField, c);
+
     startStopButton = new JButton("Start");
     startStopButton.setAlignmentX(Component.CENTER_ALIGNMENT);
     c.gridy++;
-    c.insets = new Insets(0, 0, 0, 0);
+    c.insets = new Insets(0, 5, 14, 5);
     add(startStopButton, c);
 
+    startCaptureButton = new JButton("Start Capturing");
+    startCaptureButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+    startCaptureButton.setEnabled(false);
     c.gridy++;
-    add(logoLabel, c);
+    c.insets = new Insets(0, 5, 14, 5);
+    add(startCaptureButton, c);
+
   }
 
   public void enableAllChildComponents(boolean enabled) {
-
     sineRadioButton.setEnabled(enabled);
     triangleRadioButton.setEnabled(enabled);
     squareRadioButton.setEnabled(enabled);
@@ -178,6 +197,7 @@ public class ControlPanel extends ControlView {
     frequencySliderLog.setEnabled(enabled);
     seriesTextField.setEnabled(enabled);
     startStopButton.setEnabled(enabled);
+    exportedDataPathTextField.setEnabled(enabled);
   }
 
   public ButtonGroup getWaveformRadioButtonGroup() {
@@ -225,7 +245,16 @@ public class ControlPanel extends ControlView {
     return seriesTextField;
   }
 
+  public JTextField getExportedDataPathTextField() {
+    return exportedDataPathTextField;
+  }
+
   public JButton getStartStopButton() {
     return startStopButton;
   }
+
+  public JButton getStartCaptureButton(){
+    return startCaptureButton;
+  }
+
 }

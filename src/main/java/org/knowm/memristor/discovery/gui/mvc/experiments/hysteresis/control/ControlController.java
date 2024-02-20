@@ -28,11 +28,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Enumeration;
 import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
@@ -42,6 +46,7 @@ import org.knowm.memristor.discovery.DWFProxy;
 import org.knowm.memristor.discovery.gui.mvc.LeftAndRightArrowKeyListener;
 import org.knowm.memristor.discovery.gui.mvc.experiments.Controller;
 import org.knowm.memristor.discovery.gui.mvc.experiments.Model;
+import java.util.UUID;
 
 public class ControlController extends Controller {
 
@@ -268,21 +273,41 @@ public class ControlController extends Controller {
                 }
               }
             });
-    controlView
-        .getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-        .put(KeyStroke.getKeyStroke("S"), "startstop");
-    controlView
-        .getActionMap()
-        .put(
-            "startstop",
-            new AbstractAction() {
 
-              @Override
-              public void actionPerformed(ActionEvent e) {
-
-                controlPanel.getStartStopButton().doClick();
+    controlPanel
+      .getExportedDataPathTextField()
+      .addKeyListener(new KeyAdapter() {
+        @Override
+        public void keyReleased(KeyEvent e){
+            JTextField exportedDataPathTextField = (JTextField) e.getSource();
+            String possiblePath = exportedDataPathTextField.getText();
+          if (e.getKeyCode() == 10){
+              File exportedPath = new File(possiblePath);
+              if (possiblePath.isBlank()){
+                JOptionPane.showMessageDialog(null, "La ruta no debe de estar vacia", "Error", JOptionPane.ERROR_MESSAGE);
+              }else if (!exportedPath.exists()){
+                // Crear el directorio
+                System.out.println("Creating Output Dir");
+                try{
+                  //new File(possiblePath).mkdirs();
+                  exportedPath.mkdirs();
+                  System.out.println("Se ha creado correctamente el directorio");
+                  controlPanel.getStartCaptureButton().setEnabled(true);
+                }catch(Exception ex){
+                  System.out.println(ex.toString());
+                  JOptionPane.showMessageDialog(null, "Por favor, introduzca una ruta valida", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+              }else{
+                System.out.println("El directorio ya existe");
+                controlPanel.getStartCaptureButton().setEnabled(true);
               }
-            });
+          }else{
+            controlPanel.getStartCaptureButton().setEnabled(false);
+          }
+        }
+      });
+
+    
   }
 
   /**
